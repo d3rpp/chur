@@ -1,0 +1,5 @@
+[package]
+name = "chur"
+version.workspace = true
+description.workspace = true
+edition.workspace = true

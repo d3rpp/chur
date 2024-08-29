@@ -1,0 +1,32 @@
+[workspace]
+members = [
+    "crates/*",
+    "example"
+]
+resolver = "2"
+
+[workspace.package]
+version = "0.1.0-dev"
+authors = [
+    "d3rpp <github@d3rpp.dev>"
+]
+description = "A wrapper around tonic-build which adds dependencies"
+edition = "2021"
+
+[workspace.dependencies]
+lazy_static = "^1.5"
+thiserror = "^1.0"
+
+tonic = "^0.12"
+tonic-build = "^0.12"
+prost = "^0.13"
+prost-types = "^0.13"
+
+ureq = "^2.10"
+
+serde = { version = "^1.0", features = ["derive"] }
+ron = "^0.8"
+
+sha = "^1.0"
+
+archiver-rs = "^0.5"

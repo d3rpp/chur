@@ -1,0 +1,20 @@
+[package]
+name = "chur-build"
+version.workspace = true
+description.workspace = true
+edition.workspace = true
+
+[dependencies]
+lazy_static.workspace = true
+thiserror.workspace = true
+
+tonic-build.workspace = true
+
+ureq.workspace = true
+
+serde.workspace = true
+ron.workspace = true
+
+sha.workspace = true
+
+archiver-rs.workspace = true

@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package example.hello_world.v1;
+
+import "google/type/datetime.proto";
+
+message ExampleRequest {
+  string foo = 1;
+}
+
+message ExampleResponse {
+  string bar = 1;
+  google.type.DateTime baz = 2;
+}
+
+service ExampleService {
+  rpc Example(ExampleRequest) returns (ExampleResponse) {}
+}

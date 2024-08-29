@@ -1,0 +1,9 @@
+# I use buf to lint my proto files
+# this configures it to point to the correct proto dir.
+
+version: v2
+modules:
+  - path: example/proto
+lint:
+  ignore:
+    - target/chur/include
