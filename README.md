@@ -1,6 +1,6 @@
 # Chur
 
-*"chur" - New Zealand Slang for Cheers!*
+*"chur" - New Zealand Slang for Cheers (kinda)*
 
 Chur is wrapper around `tonic-build` that makes it simpler to declare dependencies on other types.
 
