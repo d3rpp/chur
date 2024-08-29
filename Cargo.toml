@@ -6,7 +6,7 @@ members = [
 resolver = "2"
 
 [workspace.package]
-version = "0.1.0-dev"
+version = "0.1.0"
 authors = [
     "d3rpp <github@d3rpp.dev>"
 ]
