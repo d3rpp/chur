@@ -12,6 +12,7 @@ authors = [
 ]
 description = "A wrapper around tonic-build which adds dependencies"
 edition = "2021"
+license = "MIT"
 
 [workspace.dependencies]
 lazy_static = "^1.5"
