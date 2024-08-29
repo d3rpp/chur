@@ -13,6 +13,8 @@ authors = [
 description = "A wrapper around tonic-build which adds dependencies"
 edition = "2021"
 license = "MIT"
+repository = "https://github.com/d3rpp/chur"
+readme = "./README.md"
 
 [workspace.dependencies]
 lazy_static = "^1.5"
