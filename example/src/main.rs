@@ -1,19 +1,22 @@
-pub(crate) mod pb {
-    pub(crate) mod google {
-        pub(crate) mod r#type {
-            chur::import_proto!("google.r#type");
-        }
-    }
-    pub(crate) mod example {
-        pub(crate) mod hello_world {
-            pub(crate) mod v1 {
-                chur::import_proto!("example.hello_world.v1");
-            }
-        }
-    }
-}
-
-
+/// This is the equivalent of making this.
+///
+/// ```rust,ignore
+/// pub mod pb {
+///     pub mod google {
+///         pub mod r#type {
+///             chur::import_proto!("google.r#type");
+///         }
+///     }
+///     pub mod example {
+///         pub mod hello_world {
+///             pub mod v1 {
+///                 chur::import_proto!("example.hello_world.v1");
+///             }
+///         }
+///     }
+/// }
+/// ```
+pub mod pb;
 
 fn main() {
     println!("Hello, World!");

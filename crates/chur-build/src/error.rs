@@ -17,7 +17,7 @@ pub enum ChurError {
     Dependency(String),
 
     #[error("Archive Error - {0}")]
-    Archive(#[from] archiver_rs::ArchiverError)
+    Archive(#[from] archiver_rs::ArchiverError),
 }
 
 impl From<ron::error::Error> for ChurError {

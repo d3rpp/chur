@@ -6,7 +6,7 @@ edition.workspace = true
 publish = false
 
 [dependencies]
-chur = { path = "../crates/chur" }
+chur = { path = "../crates/chur", features = ["macros"] }
 tonic.workspace = true
 prost.workspace = true
 prost-types.workspace = true

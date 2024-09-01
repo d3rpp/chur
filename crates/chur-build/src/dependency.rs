@@ -1,12 +1,12 @@
+use std::fmt::Display;
 use std::fs;
 use std::io::{Read, Write};
-use std::fmt::Display;
 
 use sha::sha256::Sha256;
 use sha::utils::DigestExt;
 
-use crate::error::{ChurError, ChurResult};
 use crate::defined_constants::{DEPENDENCY_CACHE_DIR, DEPENDENCY_INCLUDE_DIR};
+use crate::error::{ChurError, ChurResult};
 
 use archiver_rs::{Archive, Compressed};
 
@@ -19,23 +19,31 @@ pub enum DependencyFormat {
 pub struct Dependency {
     pub(crate) url: String,
     pub(crate) format: DependencyFormat,
-    pub(crate) subdir: Option<String>
+    pub(crate) subdir: Option<String>,
 }
 
 impl Dependency {
-    pub fn new(url: impl Display, format: DependencyFormat, subdir: impl Into<Option<String>>) -> Self {
+    pub fn new(
+        url: impl Display,
+        format: DependencyFormat,
+        subdir: impl Into<Option<String>>,
+    ) -> Self {
         Self {
             url: url.to_string(),
             format,
-            subdir: subdir.into()
+            subdir: subdir.into(),
         }
     }
 
-    pub fn tarball(url: impl Display, format: DependencyFormat, subdir: impl Into<Option<String>>) -> Self {
+    pub fn tarball(
+        url: impl Display,
+        format: DependencyFormat,
+        subdir: impl Into<Option<String>>,
+    ) -> Self {
         Self {
             url: url.to_string(),
             format,
-            subdir: subdir.into()
+            subdir: subdir.into(),
         }
     }
 
@@ -51,18 +59,18 @@ impl Dependency {
 
         // the subdir of a github tarball depends on the repos name and the commit hash
         //
-        // e.g. this would contain a subdir called chur-<branch_or_hash> which 
+        // e.g. this would contain a subdir called chur-<branch_or_hash> which
         // has the repo in it.
         Self::new(
             format!("https://github.com/{repo_string}/archive/{branch_or_hash_unwrapped}.tar.gz"),
             DependencyFormat::Gzip,
-            format!("{repo}-{branch_or_hash_unwrapped}")
+            format!("{repo}-{branch_or_hash_unwrapped}"),
         )
     }
 
     pub(crate) fn fetch(&self) -> ChurResult<String> {
         match self.format {
-            DependencyFormat::Gzip => self.fetch_gzip_tar()
+            DependencyFormat::Gzip => self.fetch_gzip_tar(),
         }
     }
 
@@ -71,7 +79,11 @@ impl Dependency {
 
         let response = agent.get(&self.url).call()?;
         if response.status() != 200 {
-            ChurError::Dependency(format!("Dependency with URL \"{}\" returns a result of {}", self.url, response.status()));
+            ChurError::Dependency(format!(
+                "Dependency with URL \"{}\" returns a result of {}",
+                self.url,
+                response.status()
+            ));
         }
 
         // 2MB seems like a decent default limit.
@@ -82,11 +94,14 @@ impl Dependency {
         };
 
         let mut buf = Vec::with_capacity(response_len);
-        response.into_reader().take(response_len as u64).read_to_end(&mut buf)?;
+        response
+            .into_reader()
+            .take(response_len as u64)
+            .read_to_end(&mut buf)?;
 
         let mut hasher = Sha256::default();
         hasher.write_all(&buf)?;
-        
+
         let hash = hasher.to_hex();
 
         let mut archive = archiver_rs::Gzip::new(buf.as_slice())?;

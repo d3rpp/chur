@@ -1,35 +1,38 @@
 [workspace]
-members = [
-    "crates/*",
-    "example"
-]
-resolver = "2"
+    members = [
+        "crates/*",
+        "example",
+    ]
+    resolver = "2"
 
-[workspace.package]
-version = "0.1.0"
-authors = [
-    "d3rpp <github@d3rpp.dev>"
-]
-description = "A wrapper around tonic-build which adds dependencies"
-edition = "2021"
-license = "MIT"
-repository = "https://github.com/d3rpp/chur"
-readme = "./README.md"
+    [workspace.package]
+        authors = [
+            "d3rpp <github@d3rpp.dev>",
+        ]
+        description = "A wrapper around tonic-build which adds dependencies"
+        edition = "2021"
+        license = "MIT"
+        readme = "./README.md"
+        repository = "https://github.com/d3rpp/chur"
+        version = "0.2.0"
+        publish = true
 
-[workspace.dependencies]
-lazy_static = "^1.5"
-thiserror = "^1.0"
+    [workspace.dependencies]
+        lazy_static = "^1.5"
+        thiserror   = "^1.0"
 
-tonic = "^0.12"
-tonic-build = "^0.12"
-prost = "^0.13"
-prost-types = "^0.13"
+        prost       = "^0.13"
+        prost-types = "^0.13"
+        tonic       = "^0.12"
+        tonic-build = "^0.12"
 
-ureq = "^2.10"
+        ureq = "^2.10"
 
-serde = { version = "^1.0", features = ["derive"] }
-ron = "^0.8"
+        ron = "^0.8"
+        serde = { version = "^1.0", features = [
+            "derive",
+        ] }
 
-sha = "^1.0"
+        sha = "^1.0"
 
-archiver-rs = "^0.5"
+        archiver-rs = "^0.5"

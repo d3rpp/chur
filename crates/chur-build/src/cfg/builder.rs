@@ -29,7 +29,7 @@ impl ConfigBuilder {
 
     /// Define the dependencies of this project, refer to [Dependency](crate::Dependency)
     /// for documentation.
-    /// 
+    ///
     /// Can be called multiple times for multiple dependencies.
     pub fn dependency(mut self, dependency: Dependency) -> Self {
         self.dependencies.push(dependency);
@@ -37,18 +37,21 @@ impl ConfigBuilder {
     }
 
     /// Define the proto files for compilation.
-    /// 
-    /// For a gRPC setup this would only require you to references the wanted services, 
+    ///
+    /// For a gRPC setup this would only require you to references the wanted services,
     /// dependencies of those services will be imported.
     pub fn protos(mut self, protos: impl IntoIterator<Item = impl Display>) -> Self {
-        let mut protos_as_strings = protos.into_iter().map(|item| item.to_string()).collect::<Vec<String>>();
+        let mut protos_as_strings = protos
+            .into_iter()
+            .map(|item| item.to_string())
+            .collect::<Vec<String>>();
         self.protos.append(&mut protos_as_strings);
 
         self
     }
 
     /// Build the [ConfigBuilder] into a [Config]
-    /// 
+    ///
     /// This changes the directories used to be absolute.
     pub fn build(self) -> ChurResult<Config> {
         let root_dir = ROOT_MANIFEST_DIR.join(self.root_dir);

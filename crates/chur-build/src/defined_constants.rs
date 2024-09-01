@@ -44,6 +44,8 @@ lazy_static::lazy_static! {
         }
     };
 
+    pub(crate) static ref OUT_DIR: PathBuf = PathBuf::from(env::var("OUT_DIR").unwrap());
+
     /// This whole library breaks a few standards but does use the target folder for
     /// caching clones, as such we need to be able to create a folder in the `target` dir.
     ///
@@ -65,6 +67,5 @@ lazy_static::lazy_static! {
         .join("include");
 
     /// Generated Sources Directory.
-    pub(crate) static ref GENERATED_SOURCES_DIR: PathBuf = CHUR_ROOT_DIR
-        .join("generated"); 
+    pub(crate) static ref GENERATED_SOURCES_DIR: PathBuf = OUT_DIR.to_path_buf();
 }
