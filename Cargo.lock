@@ -236,14 +236,14 @@ checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
 
 [[package]]
 name = "chur"
-version = "0.2.0"
+version = "0.2.1"
 dependencies = [
  "chur-macros",
 ]
 
 [[package]]
 name = "chur-build"
-version = "0.2.0"
+version = "0.2.1"
 dependencies = [
  "archiver-rs",
  "lazy_static",
@@ -257,7 +257,7 @@ dependencies = [
 
 [[package]]
 name = "chur-example"
-version = "0.2.0"
+version = "0.2.1"
 dependencies = [
  "chur",
  "chur-build",
@@ -268,7 +268,7 @@ dependencies = [
 
 [[package]]
 name = "chur-macros"
-version = "0.2.0"
+version = "0.2.1"
 dependencies = [
  "proc-macro2",
  "quote",
