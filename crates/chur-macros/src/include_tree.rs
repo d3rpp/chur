@@ -46,10 +46,26 @@ fn insert_into_mod<'a>(
     original_path_name: String,
 ) {
     if let Some(mod_name) = path_chunk_iter.next() {
-        let mut new_mod = Mod(mod_name.to_string(), vec![]);
-        insert_into_mod(&mut new_mod, path_chunk_iter, original_path_name);
+        let child_mod = mod_item.1.iter_mut().find_map(|m| {
+            if let TreeItem::Mod(existant_mod) = m {
+                if existant_mod.0 == mod_name {
+                    Some(existant_mod)
+                } else {
+                    None
+                }
+            } else {
+                None
+            }
+        });
 
-        mod_item.1.push(TreeItem::Mod(new_mod))
+        if let Some(child) = child_mod {
+            insert_into_mod(child, path_chunk_iter, original_path_name);
+        } else {
+            let mut new_mod = Mod(mod_name.to_string(), vec![]);
+
+            insert_into_mod(&mut new_mod, path_chunk_iter, original_path_name);
+            mod_item.1.push(TreeItem::Mod(new_mod))
+        }
     } else {
         mod_item.1.push(TreeItem::File(File(original_path_name)))
     }

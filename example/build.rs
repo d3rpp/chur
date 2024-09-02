@@ -8,7 +8,10 @@ fn main() -> Result<(), ChurError> {
 
     let cfg = Config::builder()
         .root_dir("example/proto")
-        .protos(["example/hello_world/v1/hello_world_service.proto"])
+        .protos([
+            "example/hello_world/v1/hello_world_service.proto",
+            "example/hello_world/v1/foo_service.proto",
+        ])
         .dependency(Dependency::github("googleapis/api-common-protos", None))
         .build()
         .unwrap();
