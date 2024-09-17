@@ -11,6 +11,7 @@ pub struct Config {
     pub(crate) protos: Vec<PathBuf>,
 
     pub(crate) dependencies: Vec<Dependency>,
+    pub(crate) file_descriptors: bool,
 }
 
 impl Config {

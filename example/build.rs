@@ -13,6 +13,7 @@ fn main() -> Result<(), ChurError> {
             "example/hello_world/v1/foo_service.proto",
         ])
         .dependency(Dependency::github("googleapis/api-common-protos", None))
+        .file_descriptors(true)
         .build()
         .unwrap();
 

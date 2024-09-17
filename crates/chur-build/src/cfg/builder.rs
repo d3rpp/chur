@@ -12,6 +12,7 @@ pub struct ConfigBuilder {
     dependencies: Vec<Dependency>,
 
     protos: Vec<String>,
+    file_descriptors: bool,
 }
 
 impl ConfigBuilder {
@@ -50,6 +51,11 @@ impl ConfigBuilder {
         self
     }
 
+    pub fn file_descriptors(mut self, file_descriptors: bool) -> Self {
+        self.file_descriptors = file_descriptors;
+        self
+    }
+
     /// Build the [ConfigBuilder] into a [Config]
     ///
     /// This changes the directories used to be absolute.
@@ -66,6 +72,7 @@ impl ConfigBuilder {
             root_dir,
             protos,
             dependencies: self.dependencies,
+            file_descriptors: self.file_descriptors,
         })
     }
 }

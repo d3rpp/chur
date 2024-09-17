@@ -1,5 +1,7 @@
 use crate::{
-    defined_constants::{DEPENDENCY_INCLUDE_DIR, GENERATED_SOURCES_DIR},
+    defined_constants::{
+        DEPENDENCY_INCLUDE_DIR, GENERATED_DESCRIPTORS_FILE, GENERATED_SOURCES_DIR,
+    },
     error::ChurResult,
     manifest::Manifest,
     Config,
@@ -25,10 +27,14 @@ pub fn execute(cfg: Config) -> ChurResult<()> {
 
     let mut include_dirs = vec![cfg.root_dir];
 
-    let builder = tonic_build::configure().out_dir(GENERATED_SOURCES_DIR.as_path());
+    let mut builder = tonic_build::configure().out_dir(GENERATED_SOURCES_DIR.as_path());
 
     for dir in additional_include_dirs {
         include_dirs.push(DEPENDENCY_INCLUDE_DIR.join(dir));
+    }
+
+    if cfg.file_descriptors {
+        builder = builder.file_descriptor_set_path(GENERATED_DESCRIPTORS_FILE.as_path())
     }
 
     builder.compile(&cfg.protos, &include_dirs)?;

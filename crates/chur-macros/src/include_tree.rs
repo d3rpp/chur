@@ -1,4 +1,7 @@
-use std::{env, path::Path};
+use std::{
+    env,
+    path::{Path, PathBuf},
+};
 
 use proc_macro2::{Span, TokenStream};
 use syn::{Ident, LitStr};
@@ -74,18 +77,34 @@ fn insert_into_mod<'a>(
 pub(super) fn include_tree_inner(_input: TokenStream) -> TokenStream {
     let out_dir = env::var("OUT_DIR").unwrap();
 
+    // path to file descriptor if present
+    let mut fd: Option<PathBuf> = None;
+
     let out_dir_path = Path::new(out_dir.as_str());
     let dir_contents = out_dir_path.read_dir().unwrap().filter_map(|entry| {
         if let Ok(entry) = entry {
             if entry.path().is_file() {
-                return Some(
-                    entry
-                        .file_name()
-                        .to_string_lossy()
-                        .to_string()
-                        .trim_end_matches(".rs")
-                        .to_string(),
-                );
+                if let Some(file_name) = entry.path().file_name() {
+                    let fn_string = file_name.to_string_lossy();
+                    if fn_string.starts_with("__fd") {
+                        fd = Some(entry.path())
+                    } else if let Some(ext) = entry.path().extension() {
+                        if ext == "rs" {
+                            return Some(
+                                entry
+                                    .file_name()
+                                    .to_string_lossy()
+                                    .to_string()
+                                    .trim_end_matches(".rs")
+                                    .to_string(),
+                            );
+                        }
+                    } else {
+                        return None;
+                    }
+                } else {
+                    return None;
+                }
             }
         }
 
@@ -104,7 +123,19 @@ pub(super) fn include_tree_inner(_input: TokenStream) -> TokenStream {
     });
 
     let call_site = Span::call_site();
-    let tree = quote_spanned!(call_site=> #(#tree_items)*);
 
-    tree
+    let fd_token_stream = if let Some(fd_path) = fd {
+        let file_path = fd_path.to_str().unwrap();
+        Some(
+            quote_spanned!(call_site=> pub const FILE_DESCRIPTOR_BYTES: &'static [u8] = include_bytes!(#file_path);),
+        )
+    } else {
+        None
+    };
+
+    quote! {
+        #(#tree_items)*
+
+        #fd_token_stream
+    }
 }

@@ -68,4 +68,8 @@ lazy_static::lazy_static! {
 
     /// Generated Sources Directory.
     pub(crate) static ref GENERATED_SOURCES_DIR: PathBuf = OUT_DIR.to_path_buf();
+
+    /// Generated File Descriptors Path
+    pub(crate) static ref GENERATED_DESCRIPTORS_FILE: PathBuf = OUT_DIR
+        .join("__fd.bin");
 }

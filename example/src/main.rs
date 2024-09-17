@@ -18,6 +18,13 @@
 /// ```
 pub mod pb;
 
+#[allow(unused)]
 fn main() {
     println!("Hello, World!");
+
+    let desc = pb::FILE_DESCRIPTOR_BYTES;
+
+    let pb = pb::example::hello_world::v1::ExampleRequest {
+        ..Default::default()
+    };
 }
