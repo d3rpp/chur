@@ -232,13 +232,6 @@ checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
 name = "chur"
 version = "0.4.0"
 dependencies = [
- "chur-macros",
-]
-
-[[package]]
-name = "chur-build"
-version = "0.4.0"
-dependencies = [
  "archiver-rs",
  "lazy_static",
  "prettyplease",
@@ -258,19 +251,9 @@ name = "chur-example"
 version = "0.4.0"
 dependencies = [
  "chur",
- "chur-build",
  "prost",
  "prost-types",
  "tonic",
-]
-
-[[package]]
-name = "chur-macros"
-version = "0.4.0"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn",
 ]
 
 [[package]]

@@ -1,4 +1,4 @@
-use chur_build::{error::ChurError, Config, Dependency};
+use chur::{error::ChurError, Config, Dependency};
 
 fn main() -> Result<(), ChurError> {
     // println!(
@@ -18,5 +18,5 @@ fn main() -> Result<(), ChurError> {
         .build()
         .unwrap();
 
-    chur_build::execute(cfg)
+    chur::execute(cfg)
 }

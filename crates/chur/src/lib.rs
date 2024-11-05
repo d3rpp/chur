@@ -1,8 +1,14 @@
-#[macro_export]
-macro_rules! import_proto {
-    ($path: expr) => {
-        include!(concat!(env!("__CHUR_DIR"), concat!("/", $path, ".rs")));
-    };
-}
+mod cfg;
+mod defined_constants;
+mod execute;
+mod manifest;
 
-pub use chur_macros::*;
+#[cfg(feature = "codegen")]
+mod include_tree;
+
+pub mod dependency;
+pub mod error;
+
+pub use cfg::{Config, ConfigBuilder};
+pub use dependency::Dependency;
+pub use execute::execute;
