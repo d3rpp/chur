@@ -42,11 +42,13 @@ pub fn execute(cfg: Config) -> ChurResult<()> {
 
     builder.compile(&cfg.protos, &include_dirs)?;
 
-    
     #[cfg(feature = "codegen")]
     if let Some(codegen_output) = cfg.codegen {
         let absolute_output = crate::defined_constants::ROOT_MANIFEST_DIR.join(codegen_output);
-        let mut output_file = std::fs::OpenOptions::new().truncate(true).write(true).open(absolute_output)?;
+        let mut output_file = std::fs::OpenOptions::new()
+            .truncate(true)
+            .write(true)
+            .open(absolute_output)?;
 
         let parsed = syn::parse2(crate::include_tree::include_tree()).unwrap();
 

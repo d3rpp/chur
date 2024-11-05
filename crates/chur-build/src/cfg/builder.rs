@@ -94,7 +94,7 @@ impl ConfigBuilder {
             protos,
             dependencies: self.dependencies,
             file_descriptors: self.file_descriptors,
-            
+
             #[cfg(feature = "codegen")]
             codegen: self.codegen.map(PathBuf::from),
         })

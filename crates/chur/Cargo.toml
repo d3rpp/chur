@@ -19,4 +19,4 @@
 [dependencies]
     chur-macros.path = "../chur-macros"
     chur-macros.optional = true
-    chur-macros.version = "0.3.0"
+    chur-macros.version = "^0.4"

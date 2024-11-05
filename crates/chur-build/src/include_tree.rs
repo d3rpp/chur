@@ -1,5 +1,6 @@
 use std::{
-    env, path::{Path, PathBuf}
+    env,
+    path::{Path, PathBuf},
 };
 
 use proc_macro2::{Span, TokenStream};
@@ -37,11 +38,14 @@ fn mod_to_token_stream(mod_item: Mod, root_dir: &Path) -> TokenStream {
 fn file_to_token_stream(file_item: File, root_dir: &Path) -> TokenStream {
     let path = root_dir
         .join(format!("{}.rs", file_item.0))
+        .strip_prefix(crate::defined_constants::GENERATED_SOURCES_DIR.as_path())
+        .unwrap()
         .display()
         .to_string();
+
     let path_tok = syn::Lit::Str(LitStr::new(&path, Span::call_site()));
 
-    quote!(include!(#path_tok);)
+    quote!(include!(concat!(env!("OUT_DIR"), "/", #path_tok));)
 }
 
 fn insert_into_mod<'a>(
@@ -126,9 +130,13 @@ pub(super) fn include_tree() -> TokenStream {
     let call_site = Span::call_site();
 
     let fd_token_stream = if let Some(fd_path) = fd {
-        let file_path = fd_path.to_str().unwrap();
+        let file_path = fd_path
+            .strip_prefix(crate::defined_constants::GENERATED_SOURCES_DIR.as_path())
+            .unwrap()
+            .display()
+            .to_string();
         Some(
-            quote_spanned!(call_site=> pub const FILE_DESCRIPTOR_BYTES: &'static [u8] = include_bytes!(#file_path);),
+            quote_spanned!(call_site=> pub const FILE_DESCRIPTOR_BYTES: &'static [u8] = include_bytes!(concat!(env!("OUT_DIR"), "/", #file_path));),
         )
     } else {
         None
