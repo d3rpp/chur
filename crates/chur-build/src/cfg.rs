@@ -12,6 +12,9 @@ pub struct Config {
 
     pub(crate) dependencies: Vec<Dependency>,
     pub(crate) file_descriptors: bool,
+
+    #[cfg(feature = "codegen")]
+    pub(crate) codegen: Option<PathBuf>,
 }
 
 impl Config {

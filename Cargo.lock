@@ -241,9 +241,13 @@ version = "0.3.0"
 dependencies = [
  "archiver-rs",
  "lazy_static",
+ "prettyplease",
+ "proc-macro2",
+ "quote",
  "ron",
  "serde",
  "sha",
+ "syn",
  "thiserror",
  "tonic-build",
  "ureq",

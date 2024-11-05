@@ -3,6 +3,9 @@ mod defined_constants;
 mod execute;
 mod manifest;
 
+#[cfg(feature = "codegen")]
+mod include_tree;
+
 pub mod dependency;
 pub mod error;
 

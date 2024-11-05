@@ -1,5 +1,8 @@
 use std::fmt::Display;
 
+#[cfg(feature = "codegen")]
+use std::path::PathBuf;
+
 use crate::{defined_constants::ROOT_MANIFEST_DIR, dependency::Dependency};
 
 use super::Config;
@@ -13,6 +16,9 @@ pub struct ConfigBuilder {
 
     protos: Vec<String>,
     file_descriptors: bool,
+
+    #[cfg(feature = "codegen")]
+    codegen: Option<String>,
 }
 
 impl ConfigBuilder {
@@ -51,8 +57,23 @@ impl ConfigBuilder {
         self
     }
 
+    /// Generate file descriptors
     pub fn file_descriptors(mut self, file_descriptors: bool) -> Self {
         self.file_descriptors = file_descriptors;
+        self
+    }
+
+    #[cfg(feature = "codegen")]
+    /// Instead of just making the manifest, forcing to use [`chur::include_tree`][include_tree]
+    /// just dump the code into a file at the provided path.
+    ///
+    /// This works better with rust-analyzer.
+    ///
+    /// Provided path should be relative to the workspace `Cargo.toml`.
+    ///
+    /// [include_tree]: https://docs.rs/chur/latest/chur/macro.include_tree.html
+    pub fn codegen(mut self, codegen_path: impl ToString) -> Self {
+        self.codegen = Some(codegen_path.to_string());
         self
     }
 
@@ -73,6 +94,9 @@ impl ConfigBuilder {
             protos,
             dependencies: self.dependencies,
             file_descriptors: self.file_descriptors,
+            
+            #[cfg(feature = "codegen")]
+            codegen: self.codegen.map(PathBuf::from),
         })
     }
 }
