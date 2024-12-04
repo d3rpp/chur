@@ -1,7 +1,7 @@
 use std::fmt::Display;
 
 #[cfg(feature = "codegen")]
-use std::path::PathBuf;
+use super::CodegenPath;
 
 use crate::{defined_constants::ROOT_MANIFEST_DIR, dependency::Dependency};
 
@@ -18,7 +18,7 @@ pub struct ConfigBuilder {
     file_descriptors: bool,
 
     #[cfg(feature = "codegen")]
-    codegen: Option<String>,
+    codegen: Option<CodegenPath>,
 }
 
 impl ConfigBuilder {
@@ -72,8 +72,8 @@ impl ConfigBuilder {
     /// Provided path should be relative to the workspace `Cargo.toml`.
     ///
     /// [include_tree]: https://docs.rs/chur/latest/chur/macro.include_tree.html
-    pub fn codegen(mut self, codegen_path: impl ToString) -> Self {
-        self.codegen = Some(codegen_path.to_string());
+    pub fn codegen(mut self, codegen_path: impl Into<CodegenPath>) -> Self {
+        self.codegen = Some(codegen_path.into());
         self
     }
 
@@ -96,7 +96,7 @@ impl ConfigBuilder {
             file_descriptors: self.file_descriptors,
 
             #[cfg(feature = "codegen")]
-            codegen: self.codegen.map(PathBuf::from),
+            codegen: self.codegen.map(CodegenPath::from),
         })
     }
 }

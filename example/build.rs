@@ -14,7 +14,7 @@ fn main() -> Result<(), ChurError> {
         ])
         .dependency(Dependency::github("googleapis/api-common-protos", None))
         .file_descriptors(true)
-        .codegen("example/src/pb.rs")
+        .codegen("example/src/pb.rs".to_string())
         .build()
         .unwrap();
 

@@ -1,13 +1,11 @@
 #[cfg(feature = "codegen")]
 use std::io::Write;
+use std::{env, path::PathBuf};
 
 use crate::{
-    defined_constants::{
+    cfg::CodegenPath, defined_constants::{
         DEPENDENCY_INCLUDE_DIR, GENERATED_DESCRIPTORS_FILE, GENERATED_SOURCES_DIR,
-    },
-    error::ChurResult,
-    manifest::Manifest,
-    Config,
+    }, error::ChurResult, manifest::Manifest, Config
 };
 
 pub fn execute(cfg: Config) -> ChurResult<()> {
@@ -44,7 +42,16 @@ pub fn execute(cfg: Config) -> ChurResult<()> {
 
     #[cfg(feature = "codegen")]
     if let Some(codegen_output) = cfg.codegen {
-        let absolute_output = crate::defined_constants::ROOT_MANIFEST_DIR.join(codegen_output);
+        let absolute_output = match codegen_output {
+            CodegenPath::Relative(codegen_output) => {
+                crate::defined_constants::ROOT_MANIFEST_DIR.join(codegen_output)
+            },
+
+            CodegenPath::Absolute => {
+                PathBuf::from(env::var("OUT_DIR").unwrap())
+            }
+        };
+
         let mut output_file = std::fs::OpenOptions::new()
             .truncate(true)
             .write(true)
