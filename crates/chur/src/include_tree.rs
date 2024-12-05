@@ -91,10 +91,10 @@ pub(super) fn include_tree() -> TokenStream {
             if entry.path().is_file() {
                 if let Some(file_name) = entry.path().file_name() {
                     let fn_string = file_name.to_string_lossy();
-                    if fn_string.starts_with("__") {
+                    if fn_string == "__fd.bin" {
                         fd = Some(entry.path())
                     } else if let Some(ext) = entry.path().extension() {
-                        if ext == "rs" {
+                        if ext == "rs" && fn_string != "__pb.rs" {
                             return Some(
                                 entry
                                     .file_name()
