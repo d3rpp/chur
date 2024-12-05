@@ -26,10 +26,21 @@ fn mod_to_token_stream(mod_item: Mod, root_dir: &Path) -> TokenStream {
         TreeItem::File(file_item) => file_to_token_stream(file_item, root_dir),
     });
 
-    let mod_name = syn::parse_str::<Ident>(mod_item.0.as_str()).expect("invalid mod ident");
+    let mod_name = syn::parse_str::<Ident>(mod_item.0.as_str());
+
+    let mod_name_unwrapped = match mod_name {
+        Ok(mod_name) => mod_name,
+        Err(e) => {
+            panic!(
+                "invalid mod ident \"{}\" - {}",
+                mod_item.0.as_str(),
+                e
+            );
+        }
+    };
 
     quote! {
-        pub mod #mod_name {
+        pub mod #mod_name_unwrapped {
             #(#mod_children)*
         }
     }
