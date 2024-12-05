@@ -55,6 +55,7 @@ pub fn execute(cfg: Config) -> ChurResult<()> {
         let mut output_file = std::fs::OpenOptions::new()
             .truncate(true)
             .write(true)
+            .create(true)
             .open(absolute_output)?;
 
         let parsed = syn::parse2(crate::include_tree::include_tree()).unwrap();
