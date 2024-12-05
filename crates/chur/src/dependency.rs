@@ -78,6 +78,7 @@ impl Dependency {
         let agent = ureq::Agent::new();
 
         let response = agent.get(&self.url).call()?;
+        
         if response.status() != 200 {
             ChurError::Dependency(format!(
                 "Dependency with URL \"{}\" returns a result of {}",
@@ -101,6 +102,7 @@ impl Dependency {
 
         let mut hasher = Sha256::default();
         hasher.write_all(&buf)?;
+        hasher.flush()?;
 
         let hash = hasher.to_hex();
 
