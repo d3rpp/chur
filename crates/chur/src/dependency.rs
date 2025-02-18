@@ -10,6 +10,8 @@ use crate::error::{ChurError, ChurResult};
 
 use archiver_rs::{Archive, Compressed};
 
+const DEFAULT_DEPENDENCY_MAX_SIZE: usize = 100_000_000usize;
+
 #[derive(Debug)]
 pub enum DependencyFormat {
     Gzip,
@@ -87,12 +89,20 @@ impl Dependency {
             ));
         }
 
-        // 2MB seems like a decent default limit.
+
+        // 100MB seems like a decent default limit.
         let response_len = if let Some(header) = response.header("Content-Length") {
-            header.parse().unwrap_or(2_000_000)
+            let header_length = header.parse().unwrap_or(0);
+
+            if header_length == 0 { 
+                DEFAULT_DEPENDENCY_MAX_SIZE 
+            } else { 
+                header_length 
+            }
         } else {
-            2_000_000
+            DEFAULT_DEPENDENCY_MAX_SIZE
         };
+
 
         let mut buf = Vec::with_capacity(response_len);
         response
