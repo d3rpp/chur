@@ -35,4 +35,4 @@
 
         sha = "^1.0"
 
-        archiver-rs = { version = "^0.5", default-features = false, features = ["gzip"] }
+        archiver-rs = { version = "^0.5", default-features = false, features = ["gzip", "tar"] }
