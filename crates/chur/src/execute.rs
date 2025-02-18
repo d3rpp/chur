@@ -38,7 +38,8 @@ pub fn execute(cfg: Config) -> ChurResult<()> {
         builder = builder.file_descriptor_set_path(GENERATED_DESCRIPTORS_FILE.as_path())
     }
 
-    builder.compile_protos(&cfg.protos, &include_dirs)?;
+    builder
+        .compile_protos(&cfg.protos, &include_dirs)?;
 
     #[cfg(feature = "codegen")]
     if let Some(codegen_output) = cfg.codegen {

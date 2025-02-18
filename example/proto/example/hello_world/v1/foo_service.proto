@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package example.hello_world.v1;
 
-import "google/type/datetime.proto";
+import "google/proto/timestamp.proto";
 
 message FooRequest {
   string foo = 1;
@@ -10,7 +10,7 @@ message FooRequest {
 
 message FooResponse {
   string bar = 1;
-  google.type.DateTime baz = 2;
+  google.protobuf.Timestamp baz = 2;
 }
 
 service FooService {

@@ -49,7 +49,7 @@ impl Dependency {
         }
     }
 
-    pub fn github(repo: impl Display, branch_or_hash: impl Into<Option<String>>) -> Self {
+    pub fn github(repo: impl Display, branch_or_hash: impl Into<Option<String>>, subdir: impl Into<Option<String>>) -> Self {
         let branch_opt: Option<String> = branch_or_hash.into();
         let branch_or_hash_unwrapped = branch_opt.unwrap_or("main".to_string());
 
@@ -59,6 +59,9 @@ impl Dependency {
         let _user = repo_split.next().unwrap();
         let repo = repo_split.next().unwrap();
 
+        let subdir_opt = subdir.into();
+        let subdir_unwrapped = subdir_opt.unwrap_or_default();
+
         // the subdir of a github tarball depends on the repos name and the commit hash
         //
         // e.g. this would contain a subdir called chur-<branch_or_hash> which
@@ -66,7 +69,7 @@ impl Dependency {
         Self::new(
             format!("https://github.com/{repo_string}/archive/{branch_or_hash_unwrapped}.tar.gz"),
             DependencyFormat::Gzip,
-            format!("{repo}-{branch_or_hash_unwrapped}"),
+            format!("{repo}-{branch_or_hash_unwrapped}{subdir_unwrapped}"),
         )
     }
 
